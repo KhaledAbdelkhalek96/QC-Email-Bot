@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Install QC Email Bot</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #09090b;
+      color: #f4f4f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .card {
+      background: #18181b;
+      border: 1.5px solid #581c87;
+      border-radius: 20px;
+      padding: 45px 35px;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(88, 28, 135, 0.35), 0 20px 50px rgba(0,0,0,0.85);
+      max-width: 460px;
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    @keyframes mascotFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(4deg); }
+    }
+    @keyframes mascotBlink {
+      0%, 88%, 100% { filter: drop-shadow(0 0 4px rgba(192,132,252,0.6)); opacity: 1; }
+      94% { filter: drop-shadow(0 0 16px rgba(192,132,252,1)); transform: scale(1.18); opacity: 0.85; }
+    }
+    .mascot {
+      font-size: 64px;
+      display: inline-block;
+      user-select: none;
+      animation: mascotFloat 3s ease-in-out infinite, mascotBlink 4s ease-in-out infinite;
+      transform-origin: center;
+      margin-bottom: 8px;
+    }
+    .title {
+      color: #c084fc;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+      text-shadow: 0 0 20px rgba(192, 132, 252, 0.4);
+    }
+    .instruction-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 22px;
+    }
+    .instruction-text {
+      color: #d4d4d8;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    @keyframes bounceDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+    .pointing-hand {
+      font-size: 28px;
+      display: inline-block;
+      animation: bounceDown 1.4s ease-in-out infinite;
+      user-select: none;
+    }
+    .drag-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 36px;
+      background: #6b21a8;
+      color: #ffffff !important;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 1.5px solid #c084fc;
+      box-shadow: 0 0 22px rgba(168, 85, 247, 0.5);
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .drag-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.8);
+      background: #7e22ce;
+    }
+    .drag-btn:active {
+      cursor: grabbing;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="mascot">🤖</div>
+    <div class="title">QC Email Bot</div>
+    
+    <div class="instruction-wrapper">
+      <div class="instruction-text">Drag the bot to your Bookmarks Bar</div>
+      <div class="pointing-hand">👇</div>
+    </div>
+
+    <!-- The Drag-and-Drop Button -->
+    <a id="bot-drag-link" class="drag-btn" href="#">QC Email Bot</a>
+  </div>
+
+  <script>
+    var scriptSource = function() {
+      var old = document.getElementById("quality-email-bot");
+      if (old) { old.remove(); return; }
+      var d = document;
+      var w = d.createElement("div");
+      w.id = "quality-email-bot";
+      w.style.cssText = "position:fixed;top:4%;right:20px;z-index:999999999;width:630px;min-width:440px;max-width:92vw;max-height:92vh;background:rgba(9,9,11,0.97);backdrop-filter:blur(12px);color:#f4f4f5;border:1.2px solid #581c87;border-radius:14px;padding:15px;box-shadow:0 0 25px rgba(88,28,135,0.2),0 20px 50px rgba(0,0,0,0.95);font-family:sans-serif;display:flex;flex-direction:column;gap:9px;overflow-y:auto;resize:both;box-sizing:border-box;";
+      w.innerHTML = '<style>#quality-email-bot::-webkit-resizer{background:#6b21a8;border-radius:4px;}@keyframes qebAura{0%{box-shadow:0 0 15px rgba(88,28,135,0.15),0 15px 35px rgba(0,0,0,0.9);}50%{box-shadow:0 0 25px rgba(107,33,168,0.3),0 20px 50px rgba(0,0,0,0.95);}100%{box-shadow:0 0 15px rgba(88,28,135,0.15),0 15px 35px rgba(0,0,0,0.9);}}@keyframes qebWindowSpawn{0%{opacity:0;transform:scale(0.88) translateY(-10px);filter:blur(6px);}60%{opacity:1;transform:scale(1.01) translateY(0);filter:blur(0);}100%{opacity:1;transform:scale(1) translateY(0);filter:blur(0);}}#quality-email-bot{animation:qebWindowSpawn 0.4s cubic-bezier(0.16,1,0.3,1) forwards,qebAura 5s infinite 0.4s ease-in-out;}@keyframes qebIntroBot{0%{transform:scale(0) rotate(-25deg);opacity:0;filter:drop-shadow(0 0 0 rgba(192,132,252,0));}50%{transform:scale(1.35) rotate(10deg);opacity:1;filter:drop-shadow(0 0 15px rgba(192,132,252,0.9));}75%{transform:scale(0.95) rotate(-4deg);}100%{transform:scale(1) rotate(0deg);opacity:1;filter:drop-shadow(0 0 4px rgba(192,132,252,0.6));}}@keyframes qebFloat{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-3.5px) rotate(3deg);}}@keyframes qebBlink{0%,90%,100%{filter:drop-shadow(0 0 2px rgba(192,132,252,0.6));opacity:1;}95%{filter:drop-shadow(0 0 8px rgba(192,132,252,1));transform:scale(1.15);opacity:0.8;}}.qeb-animated-bot{display:inline-block;animation:qebIntroBot 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards,qebFloat 3s ease-in-out infinite 0.5s,qebBlink 4s ease-in-out infinite 0.5s;transform-origin:center;}</style><div id="qeb-header" style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(107,33,168,0.3);padding-bottom:7px;cursor:move;user-select:none;"><b style="color:#c084fc;font-size:14px;display:flex;align-items:center;gap:7px;"><span class="qeb-animated-bot" style="font-size:18px;">🤖</span> Quality Email Bot</b><div style="display:flex;gap:6px;"><button id="qeb-min" style="background:#18181b;border:1px solid rgba(107,33,168,0.3);color:#c084fc;width:24px;height:24px;border-radius:4px;font-size:11px;cursor:pointer;line-height:10px;" title="Minimize / Restore">_</button><button id="qeb-close" style="background:#18181b;border:1px solid rgba(239,68,68,0.3);color:#ef4444;width:24px;height:24px;border-radius:4px;font-size:12px;cursor:pointer;font-weight:bold;line-height:10px;" title="Close">✖</button></div></div><div id="qeb-body" style="display:flex;flex-direction:column;gap:8px;"><div style="display:flex;gap:8px;"><div style="flex:1;display:flex;flex-direction:column;gap:3px;"><label style="font-size:11px;color:#a1a1aa;font-weight:bold;">1. Customer Query Nature:</label><select id="qeb-query-type" style="width:100%;padding:6px;background:#18181b;border:1px solid rgba(107,33,168,0.3);color:#f4f4f5;border-radius:6px;font-size:11px;outline:none;"><option value="account_specific">Account-Specific / Requires BO Investigation</option><option value="status_only">Account or Email Status Confirmation Only</option><option value="general_faq">General FAQ (No BO Investigation Required)</option></select></div><div id="qeb-email-box" style="flex:1;display:flex;flex-direction:column;gap:3px;"><label style="font-size:11px;color:#a1a1aa;font-weight:bold;">2. Sender Email Status in BO:</label><select id="qeb-email-status" style="width:100%;padding:6px;background:#18181b;border:1px solid rgba(107,33,168,0.3);color:#f4f4f5;border-radius:6px;font-size:11px;outline:none;"><option value="registered_verified">Registered & Verified in BO</option><option value="registered_unverified">Registered but Unverified in BO</option><option value="unregistered">Unregistered Email ID</option></select></div></div><div style="display:flex;flex-direction:column;gap:3px;"><label style="font-size:11px;color:#c084fc;font-weight:bold;">Did agent ask security questions?</label><select id="qeb-asked-sq" style="width:100%;padding:6px;background:#18181b;border:1px solid #7e22ce;color:#f4f4f5;border-radius:6px;font-size:11px;outline:none;"><option value="yes">Yes</option><option value="no">No</option></select></div><div id="qeb-details-box" style="display:flex;flex-direction:column;gap:3px;"><label style="font-size:11px;color:#fbbf24;font-weight:bold;">Execution / Answer Evaluation Breach:</label><select id="qeb-exec-detail" style="width:100%;padding:6px;background:#18181b;border:1px solid rgba(251,191,36,0.3);color:#f4f4f5;border-radius:6px;font-size:11px;outline:none;"><option value="none">Valid Execution (Correct Questions & Flow)</option><option value="phone_country_name">Phone: Country Name Provided (France vs +33) - Improperly Rejected</option><option value="phone_multiple">Phone: Multiple Numbers with One Correct - Improperly Rejected</option><option value="phone_country_code">Phone: Omitted Country Code & Agent Failed to Prompt</option><option value="partial_specified">Partial Answer: Agent Disclosed Which Segment Was Missing</option><option value="partial_not_reasked">Partial Answer (e.g. Missing Postcode): Failed to Re-Ask Full Question</option><option value="exceeded_2_attempts">Exceeded Maximum 2 Verification Attempts Limit</option><option value="disclosed_failed">Incorrect Answer: Disclosed Which Specific Question Failed</option><option value="more_than_4">Sent More Than 4 Questions in Initial Verification</option><option value="omitted_irreplaceable">Omitted Mandatory Irreplaceable Question (Name/DOB/Phone)</option><option value="accepted_prior">Accepted Answers from Forwarded/Prior Ticket Thread</option><option value="accepted_doc">Accepted Answers from Document/Attachment</option></select></div><div style="background:#18181b;border:1px solid rgba(126,34,206,0.25);border-radius:8px;padding:9px;display:flex;flex-direction:column;gap:6px;"><label style="font-size:11px;color:#c084fc;font-weight:bold;">🏷️ Multi-Tag Required Set (Check any tag missed by agent):</label><div style="display:flex;gap:6px;"><input id="qeb-query-input" type="text" placeholder="Type: anonymous, transfer, card, login, complaint, kyc, closure..." style="flex:1;padding:6px;background:#09090b;border:1px solid rgba(126,34,206,0.4);color:#fff;border-radius:6px;font-size:11px;outline:none;"><button id="qeb-match-tag-btn" style="background:#2e1065;color:#c084fc;border:1px solid #7e22ce;padding:0 12px;border-radius:6px;font-size:11px;cursor:pointer;font-weight:bold;">Update Tags</button></div><div id="qeb-tags-container" style="display:flex;flex-direction:column;gap:5px;background:#09090b;padding:8px;border-radius:6px;border:1px dashed rgba(126,34,206,0.3);max-height:140px;overflow-y:auto;"></div></div><div style="display:flex;flex-direction:column;gap:3px;"><label style="font-size:11px;color:#a1a1aa;font-weight:bold;">Base CF Verification Link:</label><input id="qeb-cf-link" type="text" value="https://revolut.atlassian.net/wiki/spaces/BOP/pages/Support+Email+Customer+Verification" style="width:100%;padding:6px;background:#18181b;border:1px solid rgba(107,33,168,0.3);color:#f4f4f5;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;"></div><button id="qeb-eval-btn" style="background:#6b21a8;color:#f4f4f5;border:1px solid #a855f7;padding:9px;border-radius:6px;font-weight:bold;cursor:pointer;font-size:13px;letter-spacing:0.5px;box-shadow:0 0 10px rgba(107,33,168,0.4);">Run</button><div id="qeb-output" style="display:none;flex-direction:column;gap:8px;background:#09090b;padding:10px;border-radius:8px;border:1.2px solid rgba(107,33,168,0.3);"><div id="qeb-verdict-tag" style="font-weight:bold;font-size:12px;"></div><div id="qeb-required-step" style="font-size:11px;color:#d4d4d8;line-height:1.4;"></div><div id="qeb-verif-section" style="display:flex;flex-direction:column;gap:4px;"><div style="font-size:11px;color:#a7f3d0;font-weight:bold;">1. Verification Key Gap Feedback:</div><textarea id="qeb-verif-fb" rows="4" style="width:100%;padding:6px;background:#09090b;border:1px solid rgba(126,34,206,0.3);color:#e9d5ff;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;resize:vertical;"></textarea><button id="qeb-copy-verif-btn" style="background:#1e1b4b;color:#c084fc;border:1px solid #4a044e;padding:6px;border-radius:6px;font-weight:bold;cursor:pointer;font-size:11px;">📋 Copy Verification Feedback</button></div><div id="qeb-tag-section" style="display:none;flex-direction:column;gap:4px;border-top:1px dashed rgba(126,34,206,0.25);padding-top:6px;"><div style="font-size:11px;color:#fef08a;font-weight:bold;">2. Chat Tag Feedback:</div><textarea id="qeb-tag-fb" rows="4" style="width:100%;padding:6px;background:#09090b;border:1px solid rgba(126,34,206,0.3);color:#fef08a;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;resize:vertical;"></textarea><button id="qeb-copy-tag-btn" style="background:#18181b;color:#fde047;border:1px solid #713f12;padding:6px;border-radius:6px;font-weight:bold;cursor:pointer;font-size:11px;">📋 Copy Tag Feedback</button></div></div></div>';
+      d.body.appendChild(w);
+
+      var isDragging = false, startX, startY, initialLeft, initialTop;
+      var head = d.getElementById("qeb-header");
+      head.onmousedown = function(e) {
+        if (e.target.tagName === "BUTTON" || e.target.tagName === "INPUT") return;
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        var rect = w.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+        w.style.right = "auto";
+        w.style.bottom = "auto";
+        w.style.left = initialLeft + "px";
+        w.style.top = initialTop + "px";
+        d.onmousemove = function(e) {
+          if (!isDragging) return;
+          w.style.left = (initialLeft + e.clientX - startX) + "px";
+          w.style.top = (initialTop + e.clientY - startY) + "px";
+        };
+        d.onmouseup = function() {
+          isDragging = false;
+          d.onmousemove = null;
+          d.onmouseup = null;
+        };
+      };
+
+      d.getElementById("qeb-close").onclick = function() { w.remove(); };
+      var minBtn = d.getElementById("qeb-min");
+      var qBody = d.getElementById("qeb-body");
+      var isMin = false;
+      minBtn.onclick = function() {
+        isMin = !isMin;
+        if (isMin) {
+          qBody.style.display = "none";
+          w.style.height = "auto";
+          minBtn.innerText = "□";
+        } else {
+          qBody.style.display = "flex";
+          minBtn.innerText = "_";
+        }
+      };
+
+      var tagDatabase = [
+        { keys: /anonymous|anon|redirect.*chat|in-app.*chat/i, tag: "[Email] - Redirected to Anonymous", desc: "User is redirected to complete interaction or verification via anonymous chat" },
+        { keys: /complaint|dissatisfied|unhappy|escalate.*complaint|formal.*complaint/i, tag: "[Complaint]", desc: "When customer expresses dissatisfaction or requests a formal complaint" },
+        { keys: /lost.*card|card.*lost/i, tag: "[Email] Cards - Lost card", desc: "When user reports that the card was lost" },
+        { keys: /card.*order|order.*card/i, tag: "[Email] Cards - Card order issue", desc: "When user is facing issues in ordering a card" },
+        { keys: /delivery|card.*arrive|shipping/i, tag: "[Email] Cards - Delivery", desc: "User facing issues with card delivery" },
+        { keys: /atm|withdraw/i, tag: "[Email] CP-ATM Issue", desc: "Any user facing issue with ATM withdrawals or any ATM related queries" },
+        { keys: /chargeback|chb|dispute/i, tag: "[Email] CHB - Payment Dispute", desc: "Queries related to CHB dispute" },
+        { keys: /card.*payment|pos|merchant/i, tag: "[Email] CP Card Payments Query", desc: "Any query related to card payments" },
+        { keys: /inbound|receive.*transfer|incoming|waiting.*transfer|receive.*money|where.*transfer|pending.*transfer/i, tag: "[Email] Transfer - Inbound Transfer", desc: "Queries related to bank transfer received from external account" },
+        { keys: /outbound|send.*money|transfer.*external|sent.*money|outgoing/i, tag: "[Email] Transfer - Outbound Transfer", desc: "Queries related to bank transfer sent to external account" },
+        { keys: /internal.*transfer|revtag|friend/i, tag: "[Email] Transfer - Internal Transfer", desc: "Transfer sent between Revolut accounts" },
+        { keys: /top\s*up|deposit/i, tag: "[Email] Top Up - Via Card", desc: "Top ups made using external cards" },
+        { keys: /terminate|close.*account|closure/i, tag: "[Email] Account Termination - No blockers", desc: "When there are no blockers and account can be directly terminated" },
+        { keys: /login|log-in|cannot.*log|access.*account|passcode|otp|recovery/i, tag: "[Email] RA - Log-In Failed", desc: "User is unable to login to their account" },
+        { keys: /locked|restrict|blocked/i, tag: "[Email] RA - Locked Account", desc: "Account with locked status or restricted access" },
+        { keys: /statement|bank.*statement/i, tag: "[Email] RA - Statement Request", desc: "Any user reaches out for statement or any statement related queries" },
+        { keys: /kyc|identity|verify.*identity|document/i, tag: "[Email] RA - KYC", desc: "Queries related to KYC verification" },
+        { keys: /court|police|legal|regulator/i, tag: "[Email] Legal/Court Order/Police Request", desc: "Fraud, Court Order and Law Enforcement related enquiries" },
+        { keys: /phishing|scam|fraud/i, tag: "[Email] Phishing", desc: "Phishing/Scam related enquiries" },
+        { keys: /faq|general|how.*to/i, tag: "[Email] General FAQ", desc: "General FAQ about Revolut" }
+      ];
+
+      var activeRequiredTags = [];
+      function refreshRequiredTags() {
+        var em = d.getElementById("qeb-email-status").value;
+        var q = d.getElementById("qeb-query-type").value;
+        var asked = d.getElementById("qeb-asked-sq").value;
+        var det = d.getElementById("qeb-exec-detail").value;
+        var rawTxt = d.getElementById("qeb-query-input").value.trim().toLowerCase();
+        activeRequiredTags = [];
+
+        if (q === "general_faq") {
+          activeRequiredTags.push({ tag: "[Email] General FAQ", desc: "General FAQ about Revolut" });
+        } else {
+          var matched = [];
+          if (rawTxt.length > 0) {
+            for (var i = 0; i < tagDatabase.length; i++) {
+              var item = tagDatabase[i];
+              var inKeys = item.keys && item.keys.test(rawTxt);
+              var inTag = item.tag.toLowerCase().indexOf(rawTxt) !== -1;
+              var inDesc = item.desc.toLowerCase().indexOf(rawTxt) !== -1;
+              if (inKeys || inTag || inDesc) {
+                matched.push(item);
+              }
+            }
+            if (matched.length === 0) {
+              if (rawTxt.indexOf("transfer") !== -1) {
+                matched.push({ tag: "[Email] Transfer - Inbound Transfer", desc: "Queries related to bank transfer received from external account" });
+                matched.push({ tag: "[Email] Transfer - Outbound Transfer", desc: "Queries related to bank transfer sent to external account" });
+              } else if (rawTxt.indexOf("card") !== -1) {
+                matched.push({ tag: "[Email] Cards - Lost card", desc: "When user reports that the card was lost" });
+                matched.push({ tag: "[Email] Cards - Card order issue", desc: "When user is facing issues in ordering a card" });
+              }
+            }
+          }
+          if (matched.length === 0) {
+            matched.push({ tag: "[Email] RA - Existing Account Related Query", desc: "Any queries related to their existing account" });
+          }
+          matched.forEach(function(m) { activeRequiredTags.push(m); });
+        }
+
+        if (q === "account_specific") {
+          if (em === "registered_verified") {
+            if (asked === "yes" && det === "none") {
+              activeRequiredTags.push({ tag: "[Email] Verification Passed", desc: "User passes manual verification" });
+            } else if (det === "exceeded_2_attempts" || det === "disclosed_failed") {
+              activeRequiredTags.push({ tag: "[Email] Verification Failed", desc: "User fails manual verification" });
+            }
+          }
+          if (em === "unregistered") {
+            activeRequiredTags.push({ tag: "[Email] Unregistered Email ID", desc: "Additional tag only when user contacts from an unregistered email address" });
+          }
+        }
+
+        var container = d.getElementById("qeb-tags-container");
+        container.innerHTML = "";
+        activeRequiredTags.forEach(function(item, idx) {
+          var row = d.createElement("label");
+          row.style.cssText = "display:flex;align-items:center;gap:8px;font-size:11px;color:#cbd5e0;cursor:pointer;user-select:none;padding:3px 4px;border-radius:4px;";
+          row.onmouseover = function() { row.style.background = "rgba(107,33,168,0.2)"; };
+          row.onmouseout = function() { row.style.background = "transparent"; };
+          row.innerHTML = "<input type='checkbox' class='qeb-missed-tag-cb' data-index='" + idx + "' style='-webkit-appearance:checkbox !important;appearance:checkbox !important;display:inline-block !important;width:15px !important;height:15px !important;opacity:1 !important;visibility:visible !important;cursor:pointer;margin:0;'><div style='display:flex;flex-direction:column;flex:1;'><span style='color:#c084fc;font-weight:bold;'>" + item.tag + "</span><span style='color:#a1a1aa;font-size:10px;'>Usage: " + item.desc + "</span></div>";
+          container.appendChild(row);
+        });
+      }
+
+      d.getElementById("qeb-email-status").onchange = function() { updateFields(); refreshRequiredTags(); };
+      d.getElementById("qeb-query-type").onchange = function() { updateFields(); refreshRequiredTags(); };
+      d.getElementById("qeb-asked-sq").onchange = function() { updateFields(); refreshRequiredTags(); };
+      d.getElementById("qeb-exec-detail").onchange = refreshRequiredTags;
+      d.getElementById("qeb-match-tag-btn").onclick = refreshRequiredTags;
+      d.getElementById("qeb-query-input").onkeyup = function(e) { if (e.key === "Enter") refreshRequiredTags(); };
+
+      // Decision Tree UI Logic: Hides unnecessary branches dynamically!
+      function updateFields() {
+        var q = d.getElementById("qeb-query-type").value;
+        var asked = d.getElementById("qeb-asked-sq").value;
+        var emailBox = d.getElementById("qeb-email-box");
+        var detBox = d.getElementById("qeb-details-box");
+
+        if (q === "account_specific") {
+          emailBox.style.display = "flex";
+          if (asked === "yes") {
+            detBox.style.display = "flex";
+          } else {
+            detBox.style.display = "none";
+          }
+        } else {
+          // Status Only or FAQ: Details box is totally hidden because asking SQ is the root cause itself!
+          emailBox.style.display = "flex";
+          detBox.style.display = "none";
+        }
+      }
+      updateFields();
+      refreshRequiredTags();
+
+      function evaluateAudit() {
+        var em = d.getElementById("qeb-email-status").value;
+        var q = d.getElementById("qeb-query-type").value;
+        var asked = d.getElementById("qeb-asked-sq").value;
+        var det = d.getElementById("qeb-exec-detail").value;
+        var cf = d.getElementById("qeb-cf-link").value.trim();
+        var out = d.getElementById("qeb-output");
+        var tag = d.getElementById("qeb-verdict-tag");
+        var req = d.getElementById("qeb-required-step");
+        var vFb = d.getElementById("qeb-verif-fb");
+        var tFb = d.getElementById("qeb-tag-fb");
+        var tSec = d.getElementById("qeb-tag-section");
+        out.style.display = "flex";
+        var quote = "", observed = "", hence = "", reqProcedure = "", isPass = false;
+
+        // BRANCH 1: Status Confirmation Only (Highest Priority Root Cause)
+        if (q === "status_only") {
+          if (asked === "yes") {
+            quote = '[Policy Rule]: "Under When is customer verification not needed & Step 1: Account or email status confirmation only queries do not require customer verification. Agent should directly provide the status confirmation without issuing security questions."';
+            observed = "In this interaction, the customer only requested confirmation regarding their account/email status, yet the agent unnecessarily issued security verification questions to the user.";
+            hence = "ask security verification questions for a status confirmation query that does not require customer verification";
+            reqProcedure = "Directly answer and confirm the account/email status without requesting security verification questions.";
+          } else {
+            isPass = true;
+          }
+        }
+        // BRANCH 2: General FAQ (Root Cause)
+        else if (q === "general_faq") {
+          if (asked === "yes") {
+            quote = '[Policy Rule]: "Under When is customer verification not needed & Step 1: Check the request type: Basic queries / FAQ that don\'t need a BO check don\'t need customer verification. Agent can proceed with FAQ only and follow BAU (Case Solved)."';
+            observed = "In this interaction, the customer asked a general FAQ that did not require a BO check, yet the agent issued security questions to the user.";
+            hence = "ask security verification questions for a general FAQ query where BO investigation was not required";
+            reqProcedure = "Answer the FAQ directly without requesting verification, apply [Email] General FAQ, and solve the case.";
+          } else {
+            isPass = true;
+          }
+        }
+        // BRANCH 3: Account-Specific / BO Investigation Required
+        else {
+          if (em === "unregistered" && asked === "yes") {
+            quote = '[Policy Rule]: "Under Scenario 2: User writing from Unregistered Email, we can only discuss account-specific information through the email address registered to your Revolut account. Agent must first confirm whether the user has access to their registered email address or app access."';
+            observed = "In this interaction, the agent directly sent security verification questions to an unregistered email address without confirming registered access.";
+            hence = "ask security verification questions to an unregistered email sender instead of first confirming access to the registered email/app or redirecting to Anonymous Chat";
+            reqProcedure = "Send designated A-text to confirm access to registered contact details. If confirmed, initiate outbound email; if not, redirect to Anonymous Chat.";
+          } else if (em === "registered_unverified" && asked === "yes") {
+            quote = '[Policy Rule]: "Under Step 3: Email not verified, Important: Do not ask security questions if the user\'s email address is not verified in BO. Action: Send the A-text (which has the steps for the user to verify the email) then close the chat."';
+            observed = "In this interaction, the customer\'s email was unverified in BO, but the agent issued security questions instead of guiding the user to verify.";
+            hence = "issue security questions to a customer whose email address is not verified in BO";
+            reqProcedure = "Send the unverified email A-text explaining steps to verify email, and close thread.";
+          } else if (asked === "yes") {
+            if (det === "phone_country_name") {
+              quote = '[Policy Rule]: "Under 3.3 Security questions reference table: User gives country name instead of dialling code (e.g. France vs. +33) - it\'s acceptable, if the country matches the code via Google."';
+              observed = "In this interaction, the customer provided a valid country name instead of the numeric country code, yet the agent improperly treated it as invalid or failed.";
+              hence = "reject or treat a security answer as invalid when the customer provides the valid country name instead of the numeric dialling code";
+              reqProcedure = "Accept the country name if it matches the registered dialling code.";
+            } else if (det === "phone_multiple") {
+              quote = '[Policy Rule]: "Under 3.3 Security questions reference table: If a customer provides 2 or more phone numbers in the same message, and one of them is correct, treat the phone number question as answered correctly."';
+              observed = "In this interaction, the customer provided multiple phone numbers with one being correct, yet the agent treated the verification as failed.";
+              hence = "treat the phone number verification question as failed when the customer provided multiple numbers and one of them was correct";
+              reqProcedure = "Treat the phone number question as answered correctly if one of the provided numbers matches BO.";
+            } else if (det === "phone_country_code") {
+              quote = '[Policy Rule]: "Under 3.3 List of Replaceable and Irreplaceable Questions: Phone number (with country code): The number must include the correct country code. If they omit the country code after you\'ve asked for it, kindly remind them that we need the number with the country code included."';
+              observed = "In this interaction, the customer provided their phone number without the country code, and the agent failed to prompt them to include the country code.";
+              hence = "accept a phone number without the mandatory country code without prompting the customer to provide it";
+              reqProcedure = "Kindly remind the customer that the phone number must include the country code.";
+            } else if (det === "partial_specified") {
+              quote = '[Policy Rule]: "Under 3.4 Check Security Answers (Step 1: Evaluate the customer\'s answers): Partial information provided -> Re-ask only that full question again, without specifying which part is missing."';
+              observed = "In this interaction, the customer provided partial information, and the agent improperly specified to the user which exact segment was missing.";
+              hence = "specify which missing information part was omitted when re-prompting the customer for a partial security answer";
+              reqProcedure = "Re-ask only that full question again, without specifying which part is missing.";
+            } else if (det === "partial_not_reasked") {
+              quote = '[Policy Rule]: "Under 3.3 List of Replaceable and Irreplaceable Questions & 3.4 Step 1: If the user provides a correct address but omits the postcode, this is a partial answer. Agent must re-ask only that full question again."';
+              observed = "In this interaction, the customer provided a partial answer (e.g. omitted postcode), but the agent accepted it as complete or failed to properly re-ask the full question.";
+              hence = "accept a partial security answer without requiring the complete response (such as omitting the postcode in address verification)";
+              reqProcedure = "Treat omitted postcodes as partial answers and re-ask the full question without revealing what is missing.";
+            } else if (det === "exceeded_2_attempts") {
+              quote = '[Policy Rule]: "Under 3.4 Evaluation Routing: Only 2 verification attempts are allowed in total. If incorrect or partial answers are received again on the second attempt - Proceed to Step 2 (Verification Failed -> Guide user to chat)."';
+              observed = "In this interaction, the customer failed 2 verification attempts, yet the agent exceeded the 2-attempt limit and continued email verification instead of guiding them to chat.";
+              hence = "exceed the maximum limit of 2 verification attempts and continue verification instead of redirecting the user to chat";
+              reqProcedure = "Enforce strict 2-attempt limit; on second failed attempt, redirect to in-app or Anonymous Chat with tag [Email] Verification Failed.";
+            } else if (det === "disclosed_failed") {
+              quote = '[Policy Rule]: "Under Step 2: Verification Failed & Evaluation Routing, you are not supposed to tell the user which question they failed. If an Irreplaceable answer is incorrect, ask the user to re-check all answers provided without indicating which answer is incorrect."';
+              observed = "In this interaction, the agent explicitly pointed out to the customer which exact security question was failed or missing.";
+              hence = "explicitly disclose to the customer which specific verification question was answered incorrectly";
+              reqProcedure = "Agent must ask the user to re-check all answers provided without disclosing which specific question failed.";
+            } else if (det === "more_than_4") {
+              quote = '[Policy Rule]: "Under 3.2 Ask Security Questions, Important: Only 4 verification questions may be sent initially - 3 Irreplaceable Questions and 1 Replaceable Question. No additional questions should be included in the first email."';
+              observed = "In this interaction, the agent sent more than 4 security questions in the initial verification attempt.";
+              hence = "exceed the maximum limit of 4 initial verification questions (must strictly consist of 3 Irreplaceable Questions and 1 Replaceable Question)";
+              reqProcedure = "Limit initial verification questions to exactly 4: Full Name, DOB, Phone Number with country code, and 1 Replaceable Question.";
+            } else if (det === "omitted_irreplaceable") {
+              quote = '[Policy Rule]: "Under 3.2 & 3.3 List of Replaceable and Irreplaceable Questions, 3 Irreplaceable Questions (Full name on the account, Date of birth, Phone number with country code) must always be asked in the initial verification."';
+              observed = "In this interaction, the agent failed to ask one or more of the 3 mandatory Irreplaceable Questions during initial verification.";
+              hence = "omit the mandatory Irreplaceable Questions (Full Name, Date of Birth, Phone Number with country code) during the initial verification process";
+              reqProcedure = "Always include all 3 Irreplaceable Questions in the first verification email.";
+            } else if (det === "accepted_prior") {
+              quote = '[Policy Rule]: "Under 3.2 & FAQ: Verification is strictly bound to the active Ticket ID. Forwarded, quoted, or appended email history from a previous ticket is historical context only and cannot be accepted. Answers must occur within the same active Ticket ID."';
+              observed = "In this interaction, the agent accepted verification answers provided in a previous, quoted, or forwarded ticket thread.";
+              hence = "accept security verification answers provided within quoted, forwarded, or appended email history from a previous ticket ID";
+              reqProcedure = "Re-issue the verification questions directly within the new, active ticket ID.";
+            } else if (det === "accepted_doc") {
+              quote = '[Policy Rule]: "Under 4. FAQ: Can we accept Security questions details shared in a document/attachment? No - Details must be typed directly in the email body, not in documents."';
+              observed = "In this interaction, the agent accepted security verification details that were uploaded as an attachment rather than typed in the email body.";
+              hence = "accept security question answers submitted via document attachments rather than directly typed within the email body";
+              reqProcedure = "Instruct the customer to type all verification details directly within the email body.";
+            } else {
+              isPass = true;
+            }
+          } else {
+            if (em === "unregistered") {
+              quote = '[Policy Rule]: "Under Scenario 2: User writing from Unregistered Email (Step 1), the agent must first confirm whether the user has access to: Registered email address, OR Registered phone number / app access using the specified A-text."';
+              observed = "In this interaction, the agent proceeded to assist or disclose information without confirming access to registered contact details.";
+              hence = "handle an inquiry from an unregistered email without first verifying if the sender maintains access to their registered email address or app";
+              reqProcedure = "Always send the mandatory \'Confirm access to registered email\' A-text before taking any other action.";
+            } else if (em === "registered_verified") {
+              quote = '[Policy Rule]: "Under Process description: Account-Specific Requests related to an account that requires checking BO require customer verification before continuing."';
+              observed = "In this interaction, the agent assisted with an account-specific query requiring BO investigation without conducting mandatory customer verification.";
+              hence = "proceed with an account-specific query without performing mandatory customer verification";
+              reqProcedure = "Issue the mandatory 4 security verification questions prior to assisting or checking BO.";
+            } else {
+              isPass = true;
+            }
+          }
+        }
+
+        if (!isPass) {
+          tag.innerHTML = "<span style='color:#f87171;'>🚨 KEY GAP BREACH IDENTIFIED</span>";
+          req.innerHTML = "<b>Mandatory Procedure:</b> " + reqProcedure;
+          vFb.value = "as per CF:\n" + cf + "\n\n" + quote + "\n\n" + observed + "\n\n-> hence, it is inaccurate to " + hence;
+        } else {
+          tag.innerHTML = "<span style='color:#34d399;'>✔ PASS (Verification Flow Correct)</span>";
+          req.innerHTML = "Agent followed the mandated Customer Verification flow.";
+          vFb.value = "No QC feedback required. Verification flow executed accurately.";
+        }
+
+        var cbs = d.querySelectorAll(".qeb-missed-tag-cb:checked");
+        var missedTags = [];
+        cbs.forEach(function(cb) {
+          var idx = parseInt(cb.getAttribute("data-index"));
+          if (activeRequiredTags[idx]) {
+            missedTags.push(activeRequiredTags[idx]);
+          }
+        });
+
+        if (missedTags.length > 0) {
+          tSec.style.display = "flex";
+          var tagLines = [];
+          var firstTag = missedTags[0];
+          tagLines.push("Chat tag was missed:\n" + firstTag.tag + "\n\nas per CF:\nhttps://revolut.atlassian.net/wiki/spaces/BOP/pages/Support+Email+CRM+Tag+Guide\nThis tag must be used when: \"" + firstTag.desc + "\"");
+          for (var m = 1; m < missedTags.length; m++) {
+            var extraTag = missedTags[m];
+            tagLines.push("\nAdditionally, " + extraTag.tag + " was missed.\nas per the mentioned CF above, this chat tag to be used when: \"" + extraTag.desc + "\"");
+          }
+          tFb.value = tagLines.join("\n");
+        } else {
+          tSec.style.display = "none";
+          tFb.value = "";
+        }
+      }
+
+      d.getElementById("qeb-eval-btn").onclick = evaluateAudit;
+      d.getElementById("qeb-copy-verif-btn").onclick = function() {
+        var fb = d.getElementById("qeb-verif-fb");
+        fb.select();
+        navigator.clipboard.writeText(fb.value).then(function() {
+          var btn = d.getElementById("qeb-copy-verif-btn");
+          btn.innerText = "✔ Verification Feedback Copied!";
+          btn.style.color = "#34d399";
+          setTimeout(function() {
+            btn.innerText = "📋 Copy Verification Feedback";
+            btn.style.color = "#c084fc";
+          }, 1500);
+        });
+      };
+
+      d.getElementById("qeb-copy-tag-btn").onclick = function() {
+        var fb = d.getElementById("qeb-tag-fb");
+        fb.select();
+        navigator.clipboard.writeText(fb.value).then(function() {
+          var btn = d.getElementById("qeb-copy-tag-btn");
+          btn.innerText = "✔ Tag Feedback Copied!";
+          btn.style.color = "#34d399";
+          setTimeout(function() {
+            btn.innerText = "📋 Copy Tag Feedback";
+            btn.style.color = "#fef08a";
+          }, 1500);
+        });
+      };
+    };
+
+    // Safe Encoding: Ensures Chrome treats # colors and special characters as valid bookmarklet data!
+    document.getElementById("bot-drag-link").href = "javascript:" + encodeURIComponent("(" + scriptSource.toString() + ")();");
+  </script>
+</body>
+</html>
